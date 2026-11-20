@@ -12,7 +12,7 @@
    <p>
 <b>🌐 Website:</b> <a href="https://gueipul.com">gueipul.com</a> &nbsp;|&nbsp;
 <b>📥 Download:</b> <a href="https://github.com">AutoRun.txt (Ver. 3.02)</a> &nbsp;|&nbsp;
-<b>☕ Support:</b> <a href="https://ko-fi.com">://ko-fi.com</a>
+<b>☕ Support:</b> <a href="https://ko-fi.com/gueipul">ko-fi.com/gueipul</a>
 </p>
 
 
@@ -110,7 +110,7 @@ Research and hardware testing conducted by **Gueipul**, inspired by the pioneeri
 
 If you find this research useful or want to support ongoing development (such as fixing the internal playback decoder and testing additional modes), feel free to support via Ko-fi:
 
-👉 **Support via Ko-fi:** <a href="https://ko-fi.com">https://ko-fi.com</a>
+👉 **Support via Ko-fi:** <a href="https://ko-fi.com/gueipul">ko-fi.com/gueipul</a>
 
 ---
 
