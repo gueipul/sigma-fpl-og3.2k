@@ -2,7 +2,7 @@
   <img src="logo.png" alt="SIGMA fp L OG3.2K Logo" width="220" />
 
   <h1>SIGMA fp L — OG3.2K v2</h1>
-  <h3>Full-Frame Open Gate 3:2 (3152 × 2110) · Live View During REC · Glitch-Free In-Camera Playback</h3>
+  <h3>Full-Frame Open Gate 3:2 (3152 × 2110) · True Open Gate Live View (LCD + HDMI) · Glitch-Free In-Camera Playback</h3>
 
   <p>
     Independent firmware research and runtime memory modification (<code>AutoRun.txt</code>) for <b>SIGMA fp L Firmware Ver. 3.02</b>.<br />
@@ -23,9 +23,11 @@
 ## 🆕 What's New in v2
 
 * ✅ **Full-frame open gate:** the whole sensor area (full width × full height, 3:2) is recorded. Nothing is cropped from the sides.
-* ✅ **In-camera playback no longer glitches:** the magenta/red glitch from v1 is gone. Clips play back cleanly on the camera LCD.
-* ✅ **Live view works during recording:** open gate 3:2 live view keeps updating while recording (no freeze).
-* ✅ **Real 24 / 25 / 29.97 fps:** the sensor runs at the selected frame rate. Frames are sequential, with no dropped frames.
+* ✅ **True open gate live view:** standby framing is identical to recording on the LCD (no top/bottom crop, no stretch).
+* ✅ **HDMI shows open gate in standby:** no 16:9 black bars on an external monitor.
+* ✅ **Live view works during recording:** clean display on LCD and HDMI while recording (no freeze, no glitch).
+* ✅ **In-camera playback no longer glitches:** the magenta/red glitch from v1 is gone.
+* ✅ **Real 24 / 25 / 29.97 fps, 10-bit and 12-bit:** sequential frames, no drops, to SSD and SD card.
 * 🔁 **Camera setting changed:** v2 uses the **FHD** resolution slot (v1 used UHD). See *Required Camera Settings*.
 
 The previous build is kept as release **v1.0**.
@@ -60,13 +62,14 @@ Build: **SIGMA fp L Ver. 3.02 — Full-Frame Open Gate 3.2K v2 (`3152 × 2110`)*
 | :--- | :--- | :--- |
 | **Aspect Ratio** | ✅ Working (`3:2`) | Full-frame open gate: full sensor width and height |
 | **Output Resolution** | ✅ `3152 × 2110` (Active) | `3168 × 2120` RAW raster (width is a multiple of 16) |
-| **Recording Format** | ✅ CinemaDNG **12-bit** | 10-bit / 8-bit not tested with v2 |
+| **Recording Format** | ✅ CinemaDNG **12-bit & 10-bit** | 8-bit not tested. SD card: 10-bit recommended |
 | **Frame Rates** | ✅ `24p`, `25p`, `29.97p` | Real sensor rate, sequential frames, no drops. ⚠️ Do **not** use `23.98p` |
-| **LCD Live View (Standby)** | ✅ Working (`3:2` full-fit) | |
+| **LCD Live View (Standby)** | ✅ Full open gate (`3:2`) | Same framing as recording |
 | **LCD Live View (During REC)** | ✅ Working (`3:2`, smooth) | No freeze during recording |
 | **RAW DNG in DaVinci Resolve** | ✅ **Verified & Clean** | Single sequence, full open gate 3:2, audio in sync |
 | **In-Camera Playback** | ✅ **No glitch** | ⚠️ Picture is shown inside a 16:9 box (slightly squashed). 3:2 display is work in progress |
-| **HDMI Output** | ⚠️ Not adjusted | 16:9 (stretched) |
+| **HDMI Output (Standby)** | ✅ Open gate, no 16:9 bars | |
+| **HDMI Output (During REC)** | ⚠️ 16:9 | Clean (no glitch); 3:2 during REC is work in progress |
 
 ---
 
@@ -80,8 +83,8 @@ To ensure **Full-Frame Open Gate 3:2** activates properly and safely, configure 
 4. **Crop Zoom:** **OFF (`x1.00`)**.
 5. **Frame Rate:** Select **24p**, **25p**, or **29.97p**.
    * ⚠️ Do **not** select `23.98p` (wrong sensor readout, zoomed image) or `48p / 50p / 59.94p` (not supported).
-6. **Codec & Storage:** **CinemaDNG 12-bit**, recording to an **external SSD**.
-   * Data rate: ~244 MB/s (24p), ~254 MB/s (25p), ~305 MB/s (29.97p).
+6. **Codec & Storage:** **CinemaDNG 12-bit or 10-bit**, recording to an **external SSD** (recommended) or SD card (10-bit recommended).
+   * 12-bit data rate: ~244 MB/s (24p), ~254 MB/s (25p), ~305 MB/s (29.97p). 10-bit: ~203 MB/s (24p).
 7. **Reviewing Footage:** In-camera playback works without glitches (shown in a 16:9 box for now). For full-quality review, import the **CinemaDNG (`.dng`)** sequence into **DaVinci Resolve**.
 
 ---
@@ -103,6 +106,7 @@ To ensure **Full-Frame Open Gate 3:2** activates properly and safely, configure 
 2. **Recording Descriptor (hook after descriptor build, `0xC0439934`):** sensor window `3184 × 2124` → resizer ratio `1025` → RAW `3168 × 2120` (crop `3152 × 2110`). Preview uses the same stream (preview = RAW), the same way the stock FHD pipeline does. This keeps live view running during recording. A ratio of exactly `1024` (no resize) freezes live view, so `1025` is the highest working size.
 3. **Playback (no glitch):** the RAW width is a multiple of 16, and the playback profiles plus the playback-class descriptor use the clip's real row size (`3168 × 2120`, visible `3152 × 2110`, 3:2, unity scale). This follows bei's playback finding for the SIGMA fp.
 4. **LCD Display-Fit (`0xC030AF38`, `0xC030AF84`):** aspect-fit set to `3:2` for standby and recording.
+5. **Standby live view:** the standby preview uses its full height (`1928 × 1276`, visible `1920 × 1266`, the firmware's own live view profile numbers) instead of a 16:9 center crop. The display templates (`1620 × 911 → 1620 × 1080`, `320 × 180 → 320 × 213`) are switched to 3:2 only in standby and restored to stock when recording starts, so LCD and HDMI show open gate in standby without breaking the recording display.
 
 Method: values were read from the running camera (RAM dumps written to the SSD with the firmware's own `mem save` command) and compared with the stock UHD/FHD pipelines, instead of being guessed.
 
@@ -119,7 +123,7 @@ Research and hardware testing conducted by **Gueipul**, inspired by the pioneeri
 
 ## ☕ Support Development
 
-If you find this research useful or want to support ongoing development (such as true 3:2 in-camera playback display, HDMI output, and more frame rates), feel free to support via Ko-fi:
+If you find this research useful or want to support ongoing development (such as 3:2 in-camera playback display, 3:2 HDMI during recording, and more frame rates), feel free to support via Ko-fi:
 
 👉 **Support via Ko-fi:** <a href="https://ko-fi.com/gueipul">ko-fi.com/gueipul</a>
 
