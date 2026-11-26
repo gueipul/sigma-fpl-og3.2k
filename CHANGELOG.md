@@ -26,4 +26,3 @@
 - Open gate 3:2, `3168 × 2112` active / `3184 × 2122` RAW raster.
 - Live view 3:2 in standby and recording.
 - In-camera playback showed a magenta glitch.
-

@@ -1,8 +1,8 @@
 <div align="center">
   <img src="logo.png" alt="SIGMA fp L OG3.2K Logo" width="220" />
 
-  <h1>SIGMA fp L — OG3.2K</h1>
-  <h3>Open Gate 3:2 (3168 × 2112) Research & Runtime Patch</h3>
+  <h1>SIGMA fp L — OG3.2K v2</h1>
+  <h3>Full-Frame Open Gate 3:2 (3152 × 2110) · Live View During REC · Glitch-Free In-Camera Playback</h3>
 
   <p>
     Independent firmware research and runtime memory modification (<code>AutoRun.txt</code>) for <b>SIGMA fp L Firmware Ver. 3.02</b>.<br />
@@ -11,12 +11,24 @@
 
    <p>
 <b>🌐 Website:</b> <a href="https://gueipul.com">gueipul.com</a> &nbsp;|&nbsp;
-<b>📥 Download:</b> <a href="https://github.com">AutoRun.txt (Ver. 3.02)</a> &nbsp;|&nbsp;
+<b>📥 Download:</b> <a href="https://github.com/gueipul/sigma-fpl-og3.2k/blob/main/AutoRun.txt">AutoRun.txt (Ver. 3.02)</a> &nbsp;|&nbsp;
 <b>☕ Support:</b> <a href="https://ko-fi.com/gueipul">ko-fi.com/gueipul</a>
 </p>
 
 
 </div>
+
+---
+
+## 🆕 What's New in v2
+
+* ✅ **Full-frame open gate:** the whole sensor area (full width × full height, 3:2) is recorded. Nothing is cropped from the sides.
+* ✅ **In-camera playback no longer glitches:** the magenta/red glitch from v1 is gone. Clips play back cleanly on the camera LCD.
+* ✅ **Live view works during recording:** open gate 3:2 live view keeps updating while recording (no freeze).
+* ✅ **Real 24 / 25 / 29.97 fps:** the sensor runs at the selected frame rate. Frames are sequential, with no dropped frames.
+* 🔁 **Camera setting changed:** v2 uses the **FHD** resolution slot (v1 used UHD). See *Required Camera Settings*.
+
+The previous build is kept as release **v1.0**.
 
 ---
 
@@ -36,71 +48,70 @@
 
 Everyone is welcome to explore, fork, and build upon these findings in whatever workflow feels most comfortable. You do not need to follow a rigid structure or work toward a single unified codebase to contribute.
 
-In the AI-assisted research era, bridging different experiments and understanding each other's notes has become much easier. Even when independent researchers investigate the same hardware, each path uncovers unique details—such as stabilizing long-duration 12-bit Open Gate recording while still investigating internal playback decoding. Feel free to adapt these memory maps, test new angles, and share your own discoveries openly.
+In the AI-assisted research era, bridging different experiments and understanding each other's notes has become much easier. Even when independent researchers investigate the same hardware, each path uncovers unique details—such as keeping live view running during 12-bit Open Gate recording and fixing internal playback decoding. Feel free to adapt these memory maps, test new angles, and share your own discoveries openly.
 
 ---
 
 ## 📊 Current Build Status
 
-Build: **SIGMA fp L Ver. 3.02 — Open Gate 3.2K (`3168 × 2112`)**
+Build: **SIGMA fp L Ver. 3.02 — Full-Frame Open Gate 3.2K v2 (`3152 × 2110`)**
 
 | Parameter | Status / Test Result | Notes |
 | :--- | :--- | :--- |
-| **Aspect Ratio** | ✅ Working (`3:2`) | Utilizes full sensor height (Full-Frame Open Gate) |
-| **Output Resolution** | ✅ `3168 × 2112` (Active) | `3184 × 2122` RAW Raster / `3184 × 2126` Sensor Readout |
-| **Recording Format** | ✅ CinemaDNG (12-bit, 10-bit, 8-bit) | Stable for continuous, long-duration recording |
-| **Frame Rates** | ✅ `23.98p`, `24p`, `25p`, `29.97p` | Preserves native hardware video timing (Modes 155–158) |
-| **LCD Live View / REC** | ✅ Working (`3:2` Full-Fit) | Proportional full-height `3:2` display during standby & recording |
-| **RAW DNG in DaVinci Resolve** | ✅ **Verified & Clean** | Original CinemaDNG files open normally with accurate color & geometry |
-| **In-Camera Playback** | ⚠️ **Not Working Yet (WIP)** | **Audio plays normally, but the camera LCD displays a magenta color glitch during internal playback** |
+| **Aspect Ratio** | ✅ Working (`3:2`) | Full-frame open gate: full sensor width and height |
+| **Output Resolution** | ✅ `3152 × 2110` (Active) | `3168 × 2120` RAW raster (width is a multiple of 16) |
+| **Recording Format** | ✅ CinemaDNG **12-bit** | 10-bit / 8-bit not tested with v2 |
+| **Frame Rates** | ✅ `24p`, `25p`, `29.97p` | Real sensor rate, sequential frames, no drops. ⚠️ Do **not** use `23.98p` |
+| **LCD Live View (Standby)** | ✅ Working (`3:2` full-fit) | |
+| **LCD Live View (During REC)** | ✅ Working (`3:2`, smooth) | No freeze during recording |
+| **RAW DNG in DaVinci Resolve** | ✅ **Verified & Clean** | Single sequence, full open gate 3:2, audio in sync |
+| **In-Camera Playback** | ✅ **No glitch** | ⚠️ Picture is shown inside a 16:9 box (slightly squashed). 3:2 display is work in progress |
+| **HDMI Output** | ⚠️ Not adjusted | 16:9 (stretched) |
 
 ---
 
 ## 🎥 Required Camera Settings (How to Use)
 
-To ensure **Open Gate 3:2 (3.2K)** activates properly and safely, configure your **SIGMA fp L (Ver. 3.02)** as follows:
+To ensure **Full-Frame Open Gate 3:2** activates properly and safely, configure your **SIGMA fp L (Ver. 3.02)** as follows:
 
 1. **Verify Firmware Version:** Go to **System → Firmware Update** and confirm your camera is running **Ver. 3.02**.
 2. **Mode Switch:** Set the top dial/switch to **CINE** mode.
-3. **Resolution:** Must be set to **UHD** (*do not select FHD or DCI 4K, as this patch specifically remaps the UHD pipeline*).
-4. **Crop Zoom:** Must be set to **OFF (`x1.00` Full-Frame)** (*crop modes `x1.24` and `x1.53` are not enabled in this build*).
-5. **Frame Rate:** Select **23.98p**, **24p**, **25p**, or **29.97p**.
-6. **Codec & Storage:** Select **CinemaDNG** (12-bit, 10-bit, or 8-bit) recording to an external SSD or a high-speed SD card.
-7. **Reviewing Footage:** **Do not rely on the camera's internal Playback button** to inspect visuals (internal playback decoding currently outputs a magenta color glitch on the LCD, though audio plays back normally). Connect your SSD/SD card to a computer and import the **CinemaDNG (`.dng`)** sequence directly into **DaVinci Resolve**—the recorded RAW files are completely clean and intact.
+3. **Resolution:** Must be set to **FHD** (*v2 remaps the FHD pipeline. Do not select UHD or DCI 4K*).
+4. **Crop Zoom:** **OFF (`x1.00`)**.
+5. **Frame Rate:** Select **24p**, **25p**, or **29.97p**.
+   * ⚠️ Do **not** select `23.98p` (wrong sensor readout, zoomed image) or `48p / 50p / 59.94p` (not supported).
+6. **Codec & Storage:** **CinemaDNG 12-bit**, recording to an **external SSD**.
+   * Data rate: ~244 MB/s (24p), ~254 MB/s (25p), ~305 MB/s (29.97p).
+7. **Reviewing Footage:** In-camera playback works without glitches (shown in a 16:9 box for now). For full-quality review, import the **CinemaDNG (`.dng`)** sequence into **DaVinci Resolve**.
 
 ---
 
 ## 🛠️ Installation Guide
 
-You can either download the pre-built `AutoRun.txt` directly from this repository or generate it locally from your own unpacked firmware dump using `generate_autorun.py`.
+1. Download [`AutoRun.txt`](https://github.com/gueipul/sigma-fpl-og3.2k/blob/main/AutoRun.txt) from this repository.
+2. Copy `AutoRun.txt` to the **root directory** of your SD card. The file name must be exactly `AutoRun.txt`.
+3. Insert the SD card into your **SIGMA fp L (Ver. 3.02)**, connect your SSD, and power it on (startup execution takes a few seconds).
+4. To return to stock: remove or rename `AutoRun.txt` and restart the camera.
 
-### Option A: Pre-Built `AutoRun.txt` (For Ver. 3.02 Only)
-1. Download [`AutoRun.txt`](https://github.com) from this repository.
-2. Copy `AutoRun.txt` to the root directory of your SD card (alongside the `DCIM` folder).
-3. Insert the SD card into your **SIGMA fp L (Ver. 3.02)** and power it on (startup execution takes approximately 4–5 seconds).
-
-### Option B: Generate Locally via Python (Recommended for Verification)
-`generate_autorun.py` verifies original baseline values against your local unpacked firmware binary (`base 0xC0000000`) before writing `AutoRun.txt`:
-```bash
-python3 generate_autorun.py --firmware fpl_302_unpacked_c0000000.bin --output AutoRun.txt
-```
-Copy the generated `AutoRun.txt` to the root directory of your SD card.
+> `generate_autorun.py` builds the **v1** file only. It is kept in `legacy-v1/` for reference.
 
 ---
 
-## 🔬 Technical Summary (Firmware 3.02)
+## 🔬 Technical Summary (Firmware 3.02, v2)
 
-1. **Binned Sensor Modes (`0xC0B92268`–`0xC0B92394`):** Updates sensor readout dimensions for Mode 155 (`29.97p`), Mode 156 (`25p`), Mode 157 (`24p`), and Mode 158 (`23.98p`) to `3184 × 2126` while preserving native hardware video timing to prevent buffer stalls during long 12-bit CinemaDNG takes.
-2. **UHD Selector Tables (`0xC0CBE814`–`0xC0CBEAFC`):** Synchronizes Live View Standby, CLV Movie, and UHD recording selectors to their corresponding binned sensor modes across frame rates.
-3. **Master Profile & Preview Geometry (`0xC0CABEEC`):** Configures preview scaling (`3.0`), active dimensions (`3168 × 2112`), and RAW raster geometry (`3184 × 2122`) for UHD movie and live view profiles.
-4. **LCD Display-Fit (`0xC030AF38`, `0xC030AF84`, `0xC030B074`):** Adjusts ARM aspect-fit instructions so the camera monitor renders the full `3:2` frame without vertical squishing during standby and recording.
+1. **Sensor Mode 204 (3x3 binning, full sensor area):** FHD 23.98–29.97 picker entries are redirected to mode 204. Its timing (`0xC0B9113C/40`) is set to the stock FHD timings (24.000 / 25.000 / 29.97 fps). A small hook picks the timing from the active profile's engine frame rate.
+2. **Recording Descriptor (hook after descriptor build, `0xC0439934`):** sensor window `3184 × 2124` → resizer ratio `1025` → RAW `3168 × 2120` (crop `3152 × 2110`). Preview uses the same stream (preview = RAW), the same way the stock FHD pipeline does. This keeps live view running during recording. A ratio of exactly `1024` (no resize) freezes live view, so `1025` is the highest working size.
+3. **Playback (no glitch):** the RAW width is a multiple of 16, and the playback profiles plus the playback-class descriptor use the clip's real row size (`3168 × 2120`, visible `3152 × 2110`, 3:2, unity scale). This follows bei's playback finding for the SIGMA fp.
+4. **LCD Display-Fit (`0xC030AF38`, `0xC030AF84`):** aspect-fit set to `3:2` for standby and recording.
+
+Method: values were read from the running camera (RAM dumps written to the SSD with the firmware's own `mem save` command) and compared with the stock UHD/FHD pipelines, instead of being guessed.
 
 ---
 
 ## 🙏 Credits, Tools, & References
 
 Research and hardware testing conducted by **Gueipul**, inspired by the pioneering work of **bei** (creator of **[fpSup](https://github.com)**):
-* **Initial Inspiration & Architecture:** Inspired by **bei (ijigen)**, the inventor of **[fpSup](https://github.com)**, whose `AutoRun` methodology and firmware research for the SIGMA fp series laid the foundation for this exploration.
+* **Initial Inspiration & Architecture:** Inspired by **bei (ijigen)**, the inventor of **[fpSup](https://github.com)**, whose `AutoRun` methodology and firmware research for the SIGMA fp series laid the foundation for this exploration (including the open gate canvas layout and the playback profile findings).
 * **Reverse Engineering & Binary Analysis:** **Ghidra** (NSA Software Reverse Engineering Framework) and **Python** (`struct`, `capstone`).
 * **AI Research & Documentation Assistance:** **Claude Code** and **Gemini** for assisting with memory structure mapping, offset verification, script generation, and technical documentation.
 
@@ -108,7 +119,7 @@ Research and hardware testing conducted by **Gueipul**, inspired by the pioneeri
 
 ## ☕ Support Development
 
-If you find this research useful or want to support ongoing development (such as fixing the internal playback decoder and testing additional modes), feel free to support via Ko-fi:
+If you find this research useful or want to support ongoing development (such as true 3:2 in-camera playback display, HDMI output, and more frame rates), feel free to support via Ko-fi:
 
 👉 **Support via Ko-fi:** <a href="https://ko-fi.com/gueipul">ko-fi.com/gueipul</a>
 
