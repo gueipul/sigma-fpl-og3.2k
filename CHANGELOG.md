@@ -1,5 +1,22 @@
 # Changelog
 
+## v2.1 — "OG3.2K" in the Resolution menu, UHD playback fixed
+
+**Camera setting: Resolution → OG3.2K** (the FHD slot, renamed). Recording is the same as v2.0.
+
+### Added
+- The Resolution menu shows **UHD 3840x2160** and **OG3.2K** (the FHD entry is renamed by rewriting the menu CSV in place).
+
+### Fixed
+- In-camera playback of **UHD** clips no longer shows the red glitch. Only the three FHD playback profiles are changed now (v2.0 changed all six, including the UHD ones), and the playback hook skips UHD clips.
+
+### Known limitations
+- The OG3.2K label appears about **45 seconds after power-on**, or right after changing frame rate / bit depth once. Before that the menu still shows UHD / FHD (FHD already records open gate).
+- The Record Settings summary next to "Resolution" may show a number instead of the name.
+- In UHD, the LCD live view still uses the 3:2 open gate framing (the UHD file is normal 16:9).
+- Stock 1920 × 1080 FHD is not available while the file is installed.
+- Everything listed for v2.0 below still applies (HDMI 16:9 during recording, OG playback in a 16:9 box, no 23.98p / 48p / 50p / 59.94p).
+
 ## v2.0 — Full-frame open gate, true open gate live view, glitch-free playback
 
 **Camera setting: FHD resolution slot** (v1 used UHD).

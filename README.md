@@ -20,7 +20,18 @@
 
 ---
 
-## 🆕 What's New in v2
+## 🆕 What's New in v2.1
+
+* ✅ **"OG3.2K" in the Resolution menu:** the FHD entry in **CINE → Record Settings → Resolution** is renamed to **OG3.2K**. The menu now shows **UHD 3840x2160** and **OG3.2K**.
+* ✅ **UHD in-camera playback fixed:** in v2, UHD clips showed a red glitch on in-camera playback. Now UHD and OG3.2K clips both play back without glitches.
+* ✅ **UHD recording stays stock:** UHD records normal `3840 × 2160` (only the screen framing is affected, see *Known limitations*).
+* ⏱️ **The menu label appears about 45 seconds after power-on.** See *Required Camera Settings*.
+
+The v2 build is kept as release **v2.0**.
+
+---
+
+## What's New in v2
 
 * ✅ **Full-frame open gate:** the whole sensor area (full width × full height, 3:2) is recorded. Nothing is cropped from the sides.
 * ✅ **True open gate live view:** standby framing is identical to recording on the LCD (no top/bottom crop, no stretch).
@@ -60,6 +71,7 @@ Build: **SIGMA fp L Ver. 3.02 — Full-Frame Open Gate 3.2K v2 (`3152 × 2110`)*
 
 | Parameter | Status / Test Result | Notes |
 | :--- | :--- | :--- |
+| **Resolution Menu** | ✅ **OG3.2K** + UHD | FHD entry renamed to OG3.2K. Label appears ~45 s after power-on (or after changing frame rate / bit depth once) |
 | **Aspect Ratio** | ✅ Working (`3:2`) | Full-frame open gate: full sensor width and height |
 | **Output Resolution** | ✅ `3152 × 2110` (Active) | `3168 × 2120` RAW raster (width is a multiple of 16) |
 | **Recording Format** | ✅ CinemaDNG **12-bit & 10-bit** | 8-bit not tested. SD card: 10-bit recommended |
@@ -67,7 +79,9 @@ Build: **SIGMA fp L Ver. 3.02 — Full-Frame Open Gate 3.2K v2 (`3152 × 2110`)*
 | **LCD Live View (Standby)** | ✅ Full open gate (`3:2`) | Same framing as recording |
 | **LCD Live View (During REC)** | ✅ Working (`3:2`, smooth) | No freeze during recording |
 | **RAW DNG in DaVinci Resolve** | ✅ **Verified & Clean** | Single sequence, full open gate 3:2, audio in sync |
-| **In-Camera Playback** | ✅ **No glitch** | ⚠️ Picture is shown inside a 16:9 box (slightly squashed). 3:2 display is work in progress |
+| **In-Camera Playback (OG3.2K)** | ✅ **No glitch** | ⚠️ Picture is shown inside a 16:9 box (slightly squashed). 3:2 display is work in progress |
+| **UHD Recording** | ✅ Stock `3840 × 2160` | ⚠️ LCD live view in UHD still uses the 3:2 open gate framing (display only; the file is normal 16:9) |
+| **In-Camera Playback (UHD)** | ✅ **No glitch** | Fixed in v2.1 |
 | **HDMI Output (Standby)** | ✅ Open gate, no 16:9 bars | |
 | **HDMI Output (During REC)** | ⚠️ 16:9 | Clean (no glitch); 3:2 during REC is work in progress |
 
@@ -79,13 +93,17 @@ To ensure **Full-Frame Open Gate 3:2** activates properly and safely, configure 
 
 1. **Verify Firmware Version:** Go to **System → Firmware Update** and confirm your camera is running **Ver. 3.02**.
 2. **Mode Switch:** Set the top dial/switch to **CINE** mode.
-3. **Resolution:** Must be set to **FHD** (*v2 remaps the FHD pipeline. Do not select UHD or DCI 4K*).
+3. **Resolution:** Select **OG3.2K** (this is the camera's FHD slot, renamed).
+   * ⏱️ **Wait about 45 seconds after power-on** before opening the Resolution menu. Until then the camera still shows the stock list (**UHD / FHD**). Picking **FHD** during that time is the same thing: it already records open gate.
+   * The new list (**UHD / OG3.2K**) appears once the camera rebuilds the menu page: after ~45 s, or right away if you change the frame rate or bit depth once and reopen the menu.
+   * The summary on the Record Settings page (next to "Resolution") may show a number instead of the name. This is display only.
+   * **UHD** records stock UHD. Stock 1920 × 1080 FHD is not available while this `AutoRun.txt` is installed.
 4. **Crop Zoom:** **OFF (`x1.00`)**.
 5. **Frame Rate:** Select **24p**, **25p**, or **29.97p**.
    * ⚠️ Do **not** select `23.98p` (wrong sensor readout, zoomed image) or `48p / 50p / 59.94p` (not supported).
 6. **Codec & Storage:** **CinemaDNG 12-bit or 10-bit**, recording to an **external SSD** (recommended) or SD card (10-bit recommended).
    * 12-bit data rate: ~244 MB/s (24p), ~254 MB/s (25p), ~305 MB/s (29.97p). 10-bit: ~203 MB/s (24p).
-7. **Reviewing Footage:** In-camera playback works without glitches (shown in a 16:9 box for now). For full-quality review, import the **CinemaDNG (`.dng`)** sequence into **DaVinci Resolve**.
+7. **Reviewing Footage:** In-camera playback works without glitches for OG3.2K and UHD clips (OG3.2K is shown in a 16:9 box for now). For full-quality review, import the **CinemaDNG (`.dng`)** sequence into **DaVinci Resolve**.
 
 ---
 
@@ -93,20 +111,24 @@ To ensure **Full-Frame Open Gate 3:2** activates properly and safely, configure 
 
 1. Download [`AutoRun.txt`](https://github.com/gueipul/sigma-fpl-og3.2k/blob/main/AutoRun.txt) from this repository.
 2. Copy `AutoRun.txt` to the **root directory** of your SD card. The file name must be exactly `AutoRun.txt`.
-3. Insert the SD card into your **SIGMA fp L (Ver. 3.02)**, connect your SSD, and power it on (startup execution takes a few seconds).
-4. To return to stock: remove or rename `AutoRun.txt` and restart the camera.
+3. Insert the SD card into your **SIGMA fp L (Ver. 3.02)**, connect your SSD, and power it on (startup execution takes a few seconds). On macOS, **eject** the card before removing it, or the file can be written incompletely.
+4. Wait about **45 seconds**, then select **OG3.2K** in **CINE → Record Settings → Resolution**.
+5. To return to stock: remove or rename `AutoRun.txt` and restart the camera.
 
 > `generate_autorun.py` builds the **v1** file only. It is kept in `legacy-v1/` for reference.
 
 ---
 
-## 🔬 Technical Summary (Firmware 3.02, v2)
+## 🔬 Technical Summary (Firmware 3.02, v2.1)
 
 1. **Sensor Mode 204 (3x3 binning, full sensor area):** FHD 23.98–29.97 picker entries are redirected to mode 204. Its timing (`0xC0B9113C/40`) is set to the stock FHD timings (24.000 / 25.000 / 29.97 fps). A small hook picks the timing from the active profile's engine frame rate.
 2. **Recording Descriptor (hook after descriptor build, `0xC0439934`):** sensor window `3184 × 2124` → resizer ratio `1025` → RAW `3168 × 2120` (crop `3152 × 2110`). Preview uses the same stream (preview = RAW), the same way the stock FHD pipeline does. This keeps live view running during recording. A ratio of exactly `1024` (no resize) freezes live view, so `1025` is the highest working size.
 3. **Playback (no glitch):** the RAW width is a multiple of 16, and the playback profiles plus the playback-class descriptor use the clip's real row size (`3168 × 2120`, visible `3152 × 2110`, 3:2, unity scale). This follows bei's playback finding for the SIGMA fp.
 4. **LCD Display-Fit (`0xC030AF38`, `0xC030AF84`):** aspect-fit set to `3:2` for standby and recording.
 5. **Standby live view:** the standby preview uses its full height (`1928 × 1276`, visible `1920 × 1266`, the firmware's own live view profile numbers) instead of a 16:9 center crop. The display templates (`1620 × 911 → 1620 × 1080`, `320 × 180 → 320 × 213`) are switched to 3:2 only in standby and restored to stock when recording starts, so LCD and HDMI show open gate in standby without breaking the recording display.
+
+6. **Resolution menu label (v2.1):** the Resolution list (`B2_5_4.cvm`, an 89-byte CSV in the firmware's NBR resource container, `0xC0F9E52C`) is rewritten in place with the same length. Row 2's `TEXT` field holds the literal `OG3.2K` and its `IMAGE` field is empty (text rendering), following bei's menu-resource method. The menu page only reads the CSV when it is built, which is why the label shows up ~45 s after power-on or after a settings change.
+7. **UHD playback (v2.1):** the six stock playback profiles alternate UHD (`3856 × 2170`) and FHD (`1936 × 1090`). v2 set all six to the open gate size, which broke UHD playback. v2.1 changes only the three FHD profiles, and the playback branch of the descriptor hook skips UHD descriptors (raster width `3856`).
 
 Method: values were read from the running camera (RAM dumps written to the SSD with the firmware's own `mem save` command) and compared with the stock UHD/FHD pipelines, instead of being guessed.
 
