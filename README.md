@@ -1,7 +1,7 @@
 <div align="center">
   <img src="logo.png" alt="SIGMA fp L OG3.2K Logo" width="220" />
 
-  <h1>SIGMA fp L — OG3.2K v2</h1>
+  <h1>SIGMA fp L — OPENGATE</h1>
   <h3>Full-Frame Open Gate 3:2 (3152 × 2110) · True Open Gate Live View (LCD + HDMI) · Glitch-Free In-Camera Playback</h3>
 
   <p>
